@@ -205,5 +205,5 @@ ALTER TABLE IF EXISTS public.vending
     REFERENCES public.vending_type (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
-
+    
 END;
