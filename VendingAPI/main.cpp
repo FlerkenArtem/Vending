@@ -1,7 +1,9 @@
-#include <QApplication>
+#include <QCoreApplication>
+#include <QHttpServer>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    return QApplication::exec();
+    QCoreApplication a(argc, argv);
+    QHttpServer
+    return QCoreApplication::exec();
 }

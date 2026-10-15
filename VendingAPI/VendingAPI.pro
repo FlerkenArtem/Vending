@@ -1,4 +1,4 @@
-QT += widgets
+QT += core httpserver sql
 
 CONFIG += c++17
 
