@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS public.vending
     inv_num character varying(20) COLLATE pg_catalog."default" NOT NULL,
     manufacturer bigint NOT NULL,
     modem integer NOT NULL,
-    manufacture_date timestamp with time zone NOT NULL,
-    added_to_work timestamp with time zone NOT NULL,
-    last_verification_date timestamp with time zone NOT NULL,
+    manufacture_date date NOT NULL,
+    added_to_work date NOT NULL,
+    last_verification_date date NOT NULL,
     verification_interval integer NOT NULL,
     resource integer NOT NULL,
     service_duration smallint NOT NULL,
@@ -205,5 +205,5 @@ ALTER TABLE IF EXISTS public.vending
     REFERENCES public.vending_type (id) MATCH SIMPLE
     ON UPDATE NO ACTION
     ON DELETE NO ACTION;
-    
+
 END;
