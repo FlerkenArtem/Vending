@@ -19,5 +19,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void onShowNavigationButtonClicked();
+
+    void showMainInfoWidget();
+    void showMonitorWidget();
+    void showDetailsReportWidget();
+    // Обработчики для окон не предусмотренных сессией 2
 };
 #endif // MAINWINDOW_H
