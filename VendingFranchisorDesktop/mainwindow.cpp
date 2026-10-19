@@ -6,7 +6,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->mainWidget = _mainInfoWidget;
+
+    ui->stackedWidget->addWidget(_mainInfoWidget);
+    ui->stackedWidget->addWidget(_monitorWidget);
+    ui->stackedWidget->addWidget(_machinesWidget);
+    ui->stackedWidget->setCurrentWidget(_mainInfoWidget);
 
     QObject::connect(ui->showNavigationButton,
                      &QPushButton::clicked,
@@ -27,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
                      &Navigation::machinesButtonClicked,
                      this,
                      &MainWindow::showMachinesWidget);
-
 }
 
 MainWindow::~MainWindow()
@@ -48,17 +51,19 @@ void MainWindow::onShowNavigationButtonClicked()
 
 void MainWindow::showMainInfoWidget()
 {
-    ui->mainWidget = _mainInfoWidget;
+    ui->stackedWidget->setCurrentWidget(_mainInfoWidget);
     ui->windowNameLabel->setText("Главная");
 }
 
 void MainWindow::showMonitorWidget()
 {
+    ui->stackedWidget->setCurrentWidget(_monitorWidget);
     ui->windowNameLabel->setText("Монитор ТА");
 }
 
 void MainWindow::showMachinesWidget()
 {
+    ui->stackedWidget->setCurrentWidget(_machinesWidget);
     ui->windowNameLabel->setText("Торговые автоматы");
 }
 

@@ -62,28 +62,61 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="companyNameLabel">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
-        <property name="text">
-         <string>ООО &quot;Торговые Автоматы&quot;</string>
+        <property name="sizeType">
+         <enum>QSizePolicy::Policy::Minimum</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>90</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="windowNameLabel">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Главная</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="companyNameLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>ООО &quot;Торговые Автоматы&quot;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="windowNameLabel">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Главная</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -116,7 +149,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QWidget" name="mainWidget" native="true">
+       <widget class="QStackedWidget" name="stackedWidget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -125,6 +158,9 @@
         </property>
         <property name="autoFillBackground">
          <bool>false</bool>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
         </property>
        </widget>
       </item>

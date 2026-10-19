@@ -13,9 +13,11 @@ SOURCES += \
     authform.cpp \
     clickableframe.cpp \
     clickablelabel.cpp \
+    machineswidget.cpp \
     main.cpp \
     maininfowidget.cpp \
     mainwindow.cpp \
+    monitorwidget.cpp \
     navigation.cpp
 
 HEADERS += \
@@ -23,15 +25,19 @@ HEADERS += \
     authform.h \
     clickableframe.h \
     clickablelabel.h \
+    machineswidget.h \
     maininfowidget.h \
     mainwindow.h \
+    monitorwidget.h \
     navigation.h
 
 FORMS += \
     account.ui \
     authform.ui \
+    machineswidget.ui \
     maininfowidget.ui \
     mainwindow.ui \
+    monitorwidget.ui \
     navigation.ui
 
 # Default rules for deployment.
