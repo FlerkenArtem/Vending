@@ -54,7 +54,6 @@ void MainWindow::showMainInfoWidget()
 
 void MainWindow::showMonitorWidget()
 {
-
     ui->windowNameLabel->setText("Монитор ТА");
 }
 
