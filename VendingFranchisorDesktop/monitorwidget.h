@@ -2,6 +2,7 @@
 #define MONITORWIDGET_H
 
 #include <QWidget>
+#include <QButtonGroup>
 
 namespace Ui {
 class MonitorWidget;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::MonitorWidget *ui;
+    QButtonGroup _state;
+    QButtonGroup _connection;
 };
 
 #endif // MONITORWIDGET_H
