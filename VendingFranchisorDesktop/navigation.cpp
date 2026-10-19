@@ -11,6 +11,21 @@ Navigation::Navigation(QWidget *parent)
                      &ClickableLabel::clicked,
                      this,
                      &Navigation::onAdministrationButtonClicked);
+
+    QObject::connect(ui->mainButton,
+                     &ClickableLabel::clicked,
+                     this,
+                     &Navigation::mainButtonClicked);
+
+    QObject::connect(ui->monitorButton,
+                     &ClickableLabel::clicked,
+                     this,
+                     &Navigation::monitorButtonClicked);
+
+    QObject::connect(ui->machinesButton,
+                     &ClickableLabel::clicked,
+                     this,
+                     &Navigation::machinesButtonClicked);
 }
 
 Navigation::~Navigation()

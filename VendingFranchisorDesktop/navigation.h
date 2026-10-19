@@ -20,6 +20,11 @@ private:
 
 private slots:
     void onAdministrationButtonClicked();
+
+signals:
+    void mainButtonClicked();
+    void monitorButtonClicked();
+    void machinesButtonClicked();
 };
 
 #endif // NAVIGATION_H

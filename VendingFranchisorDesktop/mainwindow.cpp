@@ -12,6 +12,22 @@ MainWindow::MainWindow(QWidget *parent)
                      &QPushButton::clicked,
                      this,
                      &MainWindow::onShowNavigationButtonClicked);
+
+    QObject::connect(ui->navigationWidget,
+                     &Navigation::mainButtonClicked,
+                     this,
+                     &MainWindow::showMainInfoWidget);
+
+    QObject::connect(ui->navigationWidget,
+                     &Navigation::monitorButtonClicked,
+                     this,
+                     &MainWindow::showMonitorWidget);
+
+    QObject::connect(ui->navigationWidget,
+                     &Navigation::machinesButtonClicked,
+                     this,
+                     &MainWindow::showMachinesWidget);
+
 }
 
 MainWindow::~MainWindow()
@@ -32,15 +48,19 @@ void MainWindow::onShowNavigationButtonClicked()
 
 void MainWindow::showMainInfoWidget()
 {
-
+    ui->mainWidget = _mainInfoWidget;
+    ui->windowNameLabel->setText("Главная");
 }
 
 void MainWindow::showMonitorWidget()
 {
 
+    ui->windowNameLabel->setText("Монитор ТА");
 }
 
-void MainWindow::showDetailsReportWidget()
+void MainWindow::showMachinesWidget()
 {
-
+    ui->windowNameLabel->setText("Торговые автоматы");
 }
+
+

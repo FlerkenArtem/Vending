@@ -27,7 +27,7 @@ private slots:
 
     void showMainInfoWidget();
     void showMonitorWidget();
-    void showDetailsReportWidget();
+    void showMachinesWidget();
     // Обработчики для окон не предусмотренных сессией 2
 };
 #endif // MAINWINDOW_H
