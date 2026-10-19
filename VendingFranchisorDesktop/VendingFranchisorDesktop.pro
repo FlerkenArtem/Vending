@@ -14,7 +14,7 @@ SOURCES += \
     clickableframe.cpp \
     clickablelabel.cpp \
     main.cpp \
-    mainwidget.cpp \
+    maininfowidget.cpp \
     mainwindow.cpp \
     navigation.cpp
 
@@ -23,14 +23,14 @@ HEADERS += \
     authform.h \
     clickableframe.h \
     clickablelabel.h \
-    mainwidget.h \
+    maininfowidget.h \
     mainwindow.h \
     navigation.h
 
 FORMS += \
     account.ui \
     authform.ui \
-    mainwidget.ui \
+    maininfowidget.ui \
     mainwindow.ui \
     navigation.ui
 

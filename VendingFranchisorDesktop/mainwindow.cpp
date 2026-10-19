@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->mainWidget = _mainInfoWidget;
 
     QObject::connect(ui->showNavigationButton,
                      &QPushButton::clicked,

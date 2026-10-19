@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "maininfowidget.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    MainInfoWidget *_mainInfoWidget = new MainInfoWidget;
 
 private slots:
     void onShowNavigationButtonClicked();
