@@ -10,21 +10,27 @@ CONFIG += c++17
 
 SOURCES += \
     account.cpp \
+    authform.cpp \
     clickableframe.cpp \
     clickablelabel.cpp \
     main.cpp \
+    mainwidget.cpp \
     mainwindow.cpp \
     navigation.cpp
 
 HEADERS += \
     account.h \
+    authform.h \
     clickableframe.h \
     clickablelabel.h \
+    mainwidget.h \
     mainwindow.h \
     navigation.h
 
 FORMS += \
     account.ui \
+    authform.ui \
+    mainwidget.ui \
     mainwindow.ui \
     navigation.ui
 
