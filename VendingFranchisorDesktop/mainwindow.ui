@@ -19,13 +19,18 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="logoLabel">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Лого</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="profileWidget" native="true"/>
+       <widget class="Account" name="profileWidget" native="true"/>
       </item>
      </layout>
     </item>
@@ -33,6 +38,11 @@
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QLabel" name="navigationLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Навигация</string>
         </property>
@@ -53,6 +63,11 @@
       </item>
       <item>
        <widget class="QLabel" name="companyNameLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Название</string>
         </property>
@@ -60,8 +75,13 @@
       </item>
       <item>
        <widget class="QLabel" name="windowNameLabel">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Окно</string>
+         <string>Главная</string>
         </property>
        </widget>
       </item>
@@ -118,7 +138,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -129,6 +149,12 @@
    <class>Navigation</class>
    <extends>QWidget</extends>
    <header>navigation.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Account</class>
+   <extends>QWidget</extends>
+   <header>account.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
