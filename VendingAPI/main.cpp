@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 
     server.route("/api/machines",
                  QHttpServerRequest::Method::Post,
-                 [](QHttpServerRequest& req) {
+                 [](const QHttpServerRequest& req) {
                      QJsonDocument doc = QJsonDocument::fromJson(req.body());
                      QJsonObject obj = doc.object();
 
@@ -217,11 +217,216 @@ int main(int argc, char *argv[])
                          qDebug() << "SQL query:" << query.lastQuery();
                      }
 
+                     int64_t newId = -1LL;
                      if (query.next()) {
-                         return query.value(0).toLongLong();
-                     } else {
-                         return -1LL;
+                         newId = query.value(0).toLongLong();
                      }
+
+                     return QHttpServerResponse(
+                         "application/json",
+                         QJsonDocument(QJsonObject{{"id", newId}}).toJson(QJsonDocument::Indented),
+                         QHttpServerResponder::StatusCode::Created);
+                 });
+
+    server.route("/auth/login",
+                 QHttpServerRequest::Method::Post,
+                 [](const QHttpServerRequest& req) -> QHttpServerResponse
+                 {
+                     QJsonParseError parseErr;
+                     const QJsonDocument doc = QJsonDocument::fromJson(req.body(), &parseErr);
+                     if (parseErr.error != QJsonParseError::NoError || !doc.isObject()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", "invalid json"}},
+                             QHttpServerResponder::StatusCode::BadRequest);
+                     }
+                     const QJsonObject body = doc.object();
+                     const QString login    = body.value("login").toString();
+                     const QString password = body.value("password").toString();
+
+                     if (login.isEmpty() || password.isEmpty()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", "login and password required"}},
+                             QHttpServerResponder::StatusCode::BadRequest);
+                     }
+
+                     QSqlQuery query;
+                     query.prepare(R"(
+        SELECT u.id, u.surname, u.name, u.patronymic,
+               u.email, u.phone_num, r.name AS role
+        FROM public."user" u
+        JOIN user_role r ON r.id = u.role
+        WHERE u.login = :login AND u.password = :password
+    )");
+                     query.bindValue(":login", login);
+                     query.bindValue(":password", password);
+
+                     if (!query.exec()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", query.lastError().text()}},
+                             QHttpServerResponder::StatusCode::InternalServerError);
+                     }
+
+                     if (!query.next()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", "invalid credentials"}},
+                             QHttpServerResponder::StatusCode::Unauthorized);
+                     }
+
+                     QJsonObject user;
+                     user["id"]         = query.value("id").toInt();
+                     user["surname"]    = query.value("surname").toString();
+                     user["name"]       = query.value("name").toString();
+                     user["patronymic"] = query.value("patronymic").toString();
+                     user["fullName"]   = QString("%1 %2 %3")
+                                            .arg(user["surname"].toString(),
+                                                 user["name"].toString(),
+                                                 user["patronymic"].toString())
+                                            .simplified();
+                     user["email"]      = query.value("email").toString();
+                     user["phone"]      = query.value("phone_num").toString();
+                     user["role"]       = query.value("role").toString();
+
+                     return QHttpServerResponse(
+                         "application/json",
+                         QJsonDocument(user).toJson(QJsonDocument::Indented),
+                         QHttpServerResponder::StatusCode::Ok);
+                 });
+
+    server.route("/api/news",
+                 QHttpServerRequest::Method::Get,
+                 [](const QHttpServerRequest&) -> QHttpServerResponse
+                 {
+                     QSqlQuery query;
+                     query.prepare(R"(
+        WITH items AS (
+            (SELECT MAX(b.buying_date_time)::date AS date,
+                    'Хит продаж: ' || p.name || ' — ' || SUM(b.quantity)::text || ' шт.' AS text
+             FROM buying b
+             JOIN product p ON p.id = b.product
+             GROUP BY p.id, p.name
+             ORDER BY SUM(b.quantity) DESC
+             LIMIT 1)
+
+            UNION ALL
+
+            (SELECT added_to_work AS date,
+                    'Установлен новый автомат: ' || location AS text
+             FROM vending
+             ORDER BY added_to_work DESC
+             LIMIT 1)
+
+            UNION ALL
+
+            (SELECT CURRENT_DATE AS date,
+                    'Вышли из строя: ' || COUNT(*)::text || ' автоматов' AS text
+             FROM vending WHERE status = 3)
+
+            UNION ALL
+
+            (SELECT CURRENT_DATE AS date,
+                    'Требуют пополнения: ' || COUNT(*)::text || ' товаров' AS text
+             FROM product WHERE quantity < min_quantity)
+
+            UNION ALL
+
+            (SELECT m.maintenance_datetime::date AS date,
+                    'Обслуживание: ' || v.location AS text
+             FROM maintenance m
+             JOIN vending v ON v.id = m.vending
+             ORDER BY m.maintenance_datetime DESC
+             LIMIT 1)
+
+            UNION ALL
+
+            (SELECT CURRENT_DATE AS date,
+                    'Выручка за неделю: '
+                    || ROUND(SUM(buying_price * quantity)::numeric, 2)::text
+                    || ' ₽' AS text
+             FROM buying
+             WHERE buying_date_time >= CURRENT_DATE - INTERVAL '7 days')
+        )
+        SELECT date, text FROM items ORDER BY date DESC
+    )");
+
+                     if (!query.exec()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", query.lastError().text()}},
+                             QHttpServerResponder::StatusCode::InternalServerError);
+                     }
+
+                     QJsonArray news;
+                     while (query.next()) {
+                         QJsonObject n;
+                         n["date"] = query.value("date").toDate().toString("yyyy-MM-dd");
+                         n["text"] = query.value("text").toString();
+                         news.append(n);
+                     }
+
+                     return QHttpServerResponse(
+                         "application/json",
+                         QJsonDocument(news).toJson(QJsonDocument::Indented),
+                         QHttpServerResponder::StatusCode::Ok);
+                 });
+
+    server.route("/api/vm",
+                 QHttpServerRequest::Method::Get,
+                 [](const QHttpServerRequest&) -> QHttpServerResponse
+                 {
+                     QSqlQuery query;
+                     query.prepare(R"(
+        SELECT
+            v.id,
+            v.serial_num,
+            v.location,
+            s.status,
+            (v.id % 4)                              AS provider_idx,
+            ((v.id * 7 + 13) % 100)                 AS network_load,
+            COALESCE(SUM(b.buying_price * b.quantity), 0)::numeric(12,2) AS money,
+            MAX(b.buying_date_time)                 AS last_event
+        FROM vending v
+        JOIN vending_status s ON s.id = v.status
+        LEFT JOIN buying b    ON b.vending = v.id
+        GROUP BY v.id, v.serial_num, v.location, s.status
+        ORDER BY v.id
+    )");
+
+                     if (!query.exec()) {
+                         return QHttpServerResponse(
+                             QJsonObject{{"error", query.lastError().text()}},
+                             QHttpServerResponder::StatusCode::InternalServerError);
+                     }
+
+                     static const char* providers[] = {
+                         "Images/beeline.jpg",
+                         "Images/mtc.jpg",
+                         "Images/megafon.jpg",
+                         "Images/tele2.jpg"
+                     };
+
+                     QJsonArray result;
+                     while (query.next()) {
+                         QJsonObject vm;
+                         vm["infoVm"]      = query.value("serial_num").toString()
+                                        + "\\"
+                                        + query.value("location").toString();
+                         vm["provider"]    = providers[query.value("provider_idx").toInt()];
+                         vm["networkLoad"] = query.value("network_load").toInt();
+                         vm["money"]       = query.value("money").toDouble();
+
+                         const QVariant le = query.value("last_event");
+                         if (le.isValid() && !le.isNull())
+                             vm["lastEvent"] = le.toDateTime().toString(Qt::ISODate);
+                         else
+                             vm["lastEvent"] = QJsonValue::Null;
+
+                         vm["status"] = query.value("status").toString();
+                         result.append(vm);
+                     }
+
+                     return QHttpServerResponse(
+                         "application/json",
+                         QJsonDocument(result).toJson(QJsonDocument::Indented),
+                         QHttpServerResponder::StatusCode::Ok);
                  });
 
     QTcpServer* tcpServer = new QTcpServer();
