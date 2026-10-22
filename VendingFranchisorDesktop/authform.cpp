@@ -12,3 +12,11 @@ AuthForm::~AuthForm()
 {
     delete ui;
 }
+
+void AuthForm::onOkClicked()
+{
+    QString login = ui->loginLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
+
+
+}

@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     account.cpp \
+    apiclient.cpp \
     authform.cpp \
     clickableframe.cpp \
     clickablelabel.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     account.h \
+    apiclient.h \
     authform.h \
     clickableframe.h \
     clickablelabel.h \

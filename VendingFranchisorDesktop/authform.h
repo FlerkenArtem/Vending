@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::AuthForm *ui;
+
+public slots:
+    void onOkClicked();
 };
 
 #endif // AUTHFORM_H
