@@ -2,6 +2,7 @@
 #define AUTHFORM_H
 
 #include <QWidget>
+#include "apiclient.h"
 
 namespace Ui {
 class AuthForm;
@@ -17,9 +18,12 @@ public:
 
 private:
     Ui::AuthForm *ui;
+    ApiClient _client;
 
 public slots:
     void onOkClicked();
+    void onLoginSuccess(const UserProfile &profile);
+    void onLoginFail(const QString &error);
 };
 
 #endif // AUTHFORM_H

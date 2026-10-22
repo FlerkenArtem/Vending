@@ -38,6 +38,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setUserProfile(const UserProfile &profile)
+{
+
+}
+
 void MainWindow::onShowNavigationButtonClicked()
 {
     if (ui->navigationWidget->isVisible()) {

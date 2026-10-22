@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "apiclient.h"
 #include "machineswidget.h"
 #include "maininfowidget.h"
 #include "monitorwidget.h"
@@ -18,6 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setUserProfile(const UserProfile &profile);
     ~MainWindow();
 
 private:
