@@ -40,7 +40,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setUserProfile(const UserProfile &profile)
 {
-
+    ui->profileWidget->setProfileData(profile);
 }
 
 void MainWindow::onShowNavigationButtonClicked()

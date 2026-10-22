@@ -37,3 +37,17 @@ void Account::onAccountClicked()
     ui->additionalFrame->move(globalPos);
     ui->additionalFrame->raise();
 }
+
+void Account::setProfileData(const UserProfile &profile)
+{
+    ui->userRoleLabel->setText(profile.role);
+
+    QString fullName = profile.surname;
+    if (!profile.name.isEmpty()) {
+        fullName += " " + QString(profile.name.front()) + ".";
+    }
+    if (!profile.patronymic.isEmpty()) {
+        fullName += " " + QString(profile.patronymic.front()) + ".";
+    }
+    ui->userNameLabel->setText(fullName);
+}

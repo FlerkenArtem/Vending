@@ -41,8 +41,8 @@ void AuthForm::onOkClicked()
 void AuthForm::onLoginSuccess(const UserProfile &profile)
 {
     MainWindow *mainWindow = new MainWindow;
-    mainWindow->setUserProfile(profile);
     mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+    mainWindow->setUserProfile(profile);
     mainWindow->show();
     this->close();
 }
