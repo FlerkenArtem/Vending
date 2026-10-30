@@ -1,4 +1,5 @@
 #include "machineswidget.h"
+#include "addmachinewidget.h"
 #include "ui_machineswidget.h"
 
 MachinesWidget::MachinesWidget(QWidget *parent)
@@ -11,4 +12,10 @@ MachinesWidget::MachinesWidget(QWidget *parent)
 MachinesWidget::~MachinesWidget()
 {
     delete ui;
+}
+
+void MachinesWidget::onNewMachineButtonClicked()
+{
+    AddMachineWidget *addMachineWidget = new AddMachineWidget;
+    addMachineWidget->show();
 }

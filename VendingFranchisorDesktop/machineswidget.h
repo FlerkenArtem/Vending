@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::MachinesWidget *ui;
+
+public slots:
+    void onNewMachineButtonClicked();
 };
 
 #endif // MACHINESWIDGET_H

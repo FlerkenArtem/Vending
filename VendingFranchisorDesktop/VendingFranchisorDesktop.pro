@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     account.cpp \
+    addmachinewidget.cpp \
     apiclient.cpp \
     authform.cpp \
     clickableframe.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 
 HEADERS += \
     account.h \
+    addmachinewidget.h \
     apiclient.h \
     authform.h \
     clickableframe.h \
@@ -35,6 +37,7 @@ HEADERS += \
 
 FORMS += \
     account.ui \
+    addmachinewidget.ui \
     authform.ui \
     machineswidget.ui \
     maininfowidget.ui \
